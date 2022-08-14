@@ -20,6 +20,10 @@ import {
   PinInputField,
   Radio,
   RadioGroup,
+  RangeSlider,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+  RangeSliderTrack,
   Select,
   Slider,
   SliderFilledTrack,
@@ -54,7 +58,7 @@ export default function Form() {
           borderColor="gray.500"
           p={5}
         >
-          <FormLabel htmlFor="name">Same</FormLabel>
+          <FormLabel htmlFor="name">Text Input</FormLabel>
           <Input
             id="name"
             placeholder="name"
@@ -210,6 +214,29 @@ export default function Form() {
             </SliderTrack>
             <SliderThumb />
           </Slider>
+          <FormHelperText>Select a value with the slider</FormHelperText>
+        </FormControl>
+
+        <FormControl
+          isInvalid={!!errors.slider}
+          rounded="md"
+          border="1px solid"
+          borderColor="gray.500"
+          p={5}
+        >
+          <FormLabel>Range Slider</FormLabel>
+
+          <RangeSlider
+            aria-label={["min", "max"]}
+            onChangeEnd={(val) => console.log(val)}
+          >
+            <RangeSliderTrack>
+              <RangeSliderFilledTrack />
+            </RangeSliderTrack>
+            <RangeSliderThumb index={0} />
+            <RangeSliderThumb index={1} />
+          </RangeSlider>
+
           <FormHelperText>Select a value with the slider</FormHelperText>
         </FormControl>
 
