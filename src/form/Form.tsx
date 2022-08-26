@@ -35,12 +35,25 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
+type FormType = {
+  name: string;
+  checkbox: boolean;
+  editable: string;
+  number: number;
+  select: string;
+  switch: boolean;
+  textarea: string;
+  radio: string;
+  pininput: string;
+  slider: string;
+};
+
 export default function Form() {
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<FormType>();
 
   function onSubmit(values: any) {
     console.log(values);
@@ -68,9 +81,10 @@ export default function Form() {
             })}
           />
           <FormHelperText>Here you write your email</FormHelperText>
-          <FormErrorMessage>
-            {errors.name && errors.name.message}
-          </FormErrorMessage>
+
+          {errors?.name?.message && (
+            <FormErrorMessage>{errors.name.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <FormControl
@@ -90,9 +104,10 @@ export default function Form() {
             Checkbox
           </Checkbox>
           <FormHelperText>Here click on the checkbox</FormHelperText>
-          <FormErrorMessage>
-            {errors.checkbox && errors.checkbox.message}
-          </FormErrorMessage>
+
+          {errors?.checkbox?.message && (
+            <FormErrorMessage>{errors.checkbox.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <FormControl
@@ -113,11 +128,12 @@ export default function Form() {
             />
           </Editable>
           <FormHelperText>Here you can edit the big text</FormHelperText>
-          <FormErrorMessage>
-            {errors.editable && errors.editable.message}
-          </FormErrorMessage>
+          {errors?.editable?.message && (
+            <FormErrorMessage>{errors.editable.message}</FormErrorMessage>
+          )}
         </FormControl>
 
+        {/* register checkbox value */}
         <FormControl
           isInvalid={!!errors.radio}
           rounded="md"
@@ -156,8 +172,12 @@ export default function Form() {
             </NumberInputStepper>
           </NumberInput>
           <FormHelperText>Input some number</FormHelperText>
+          {errors?.number?.message && (
+            <FormErrorMessage>{errors.number.message}</FormErrorMessage>
+          )}
         </FormControl>
 
+        {/* register pun input! */}
         <FormControl
           isInvalid={!!errors.pininput}
           rounded="md"
@@ -198,6 +218,9 @@ export default function Form() {
             <option value="option3">Option 3</option>
           </Select>
           <FormHelperText>Select one option</FormHelperText>
+          {errors?.select?.message && (
+            <FormErrorMessage>{errors.select.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <FormControl
@@ -215,6 +238,9 @@ export default function Form() {
             <SliderThumb />
           </Slider>
           <FormHelperText>Select a value with the slider</FormHelperText>
+          {errors?.slider?.message && (
+            <FormErrorMessage>{errors.slider.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <FormControl
@@ -238,6 +264,9 @@ export default function Form() {
           </RangeSlider>
 
           <FormHelperText>Select a value with the slider</FormHelperText>
+          {errors?.slider?.message && (
+            <FormErrorMessage>{errors.slider.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <FormControl
@@ -255,6 +284,9 @@ export default function Form() {
             })}
           />
           <FormHelperText>Click on the switch</FormHelperText>
+          {errors?.switch?.message && (
+            <FormErrorMessage>{errors.switch.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <FormControl
@@ -272,6 +304,9 @@ export default function Form() {
             placeholder="Here is a sample placeholder"
           />
           <FormHelperText>Write as much you want</FormHelperText>
+          {errors?.textarea?.message && (
+            <FormErrorMessage>{errors.textarea.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <Button
