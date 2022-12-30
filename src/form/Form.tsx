@@ -1,42 +1,25 @@
 import {
   Button,
-  Checkbox,
-  Editable,
-  EditableInput,
-  EditablePreview,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
   Heading,
-  HStack,
-  Input,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  PinInput,
   PinInputField,
   Radio,
-  RadioGroup,
-  RangeSlider,
-  RangeSliderFilledTrack,
-  RangeSliderThumb,
-  RangeSliderTrack,
-  Select,
-  Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
-  Switch,
-  Textarea,
   VStack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { AppCheckboxInput } from "../inputs/AppCheckboxInput";
+import { AppEditableInput } from "../inputs/AppEditableInput";
+import { AppInput } from "../inputs/AppInput";
+import { AppNumberInput } from "../inputs/AppNumberInput";
+import { AppPinInput } from "../inputs/AppPinInput";
+import { AppRadioInput } from "../inputs/AppRadioInput";
+import { AppRangeSliderInput } from "../inputs/AppRangeSliderInput";
+import { AppSelectInput } from "../inputs/AppSelectInput";
+import { AppSliderInput } from "../inputs/AppSliderInput";
+import { AppSwitchInput } from "../inputs/AppSwitchInput";
+import { AppTextareaInput } from "../inputs/AppTextareInput";
 
 type FormType = {
-  name: string;
+  text: string;
   checkbox: boolean;
   editable: string;
   number: number;
@@ -44,14 +27,14 @@ type FormType = {
   switch: boolean;
   textarea: string;
   radio: string;
-  pininput: string;
+  pinInput: string;
   slider: string;
 };
 
 export default function Form() {
   const {
     handleSubmit,
-    register,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<FormType>();
 
@@ -61,253 +44,98 @@ export default function Form() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <VStack spacing={10}>
-        <Heading>Chakra Form Example</Heading>
+      <VStack spacing={5}>
+        <Heading>Chakra-UI + React Hook Form</Heading>
+        <AppInput<FormType>
+          control={control}
+          name="text"
+          label="Text Input Label"
+          helperText="Enter your text area"
+          errors={errors}
+        />
+        <AppNumberInput<FormType>
+          control={control}
+          name="number"
+          label="Quantity"
+          helperText="Enter your quantity"
+          errors={errors}
+        />
 
-        <FormControl
-          isInvalid={!!errors.name}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
+        <AppCheckboxInput<FormType>
+          control={control}
+          name="checkbox"
+          label="Quantity"
+          errors={errors}
+          question="Do you like this?"
+        />
+        <AppSwitchInput<FormType>
+          control={control}
+          name="switch"
+          label="Quantity"
+          errors={errors}
+          question="Do you like this?"
+        />
+        <AppTextareaInput<FormType>
+          control={control}
+          name="textarea"
+          label="Quantity"
+          errors={errors}
+        />
+        <AppRangeSliderInput<FormType>
+          control={control}
+          name="editable"
+          label="Quantity"
+          errors={errors}
+        />
+        <AppEditableInput<FormType>
+          control={control}
+          name="editable"
+          label="Editable"
+          errors={errors}
+          defaultValue="This is editable text"
+        />
+        <AppSelectInput<FormType>
+          control={control}
+          name="select"
+          label="select input"
+          errors={errors}
         >
-          <FormLabel htmlFor="name">Text Input</FormLabel>
-          <Input
-            id="name"
-            placeholder="name"
-            {...register("name", {
-              required: "This is required",
-              minLength: { value: 4, message: "Minimum length should be 4" },
-            })}
-          />
-          <FormHelperText>Here you write your email</FormHelperText>
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+        </AppSelectInput>
 
-          {errors?.name?.message && (
-            <FormErrorMessage>{errors.name.message}</FormErrorMessage>
-          )}
-        </FormControl>
-
-        <FormControl
-          isInvalid={!!errors.checkbox}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
+        <AppRadioInput<FormType>
+          control={control}
+          name="radio"
+          label="s"
+          errors={errors}
         >
-          <FormLabel htmlFor="checkbox">Checkbox</FormLabel>
-          <Checkbox
-            id="checkbox"
-            {...register("checkbox", {
-              required: "This is required",
-            })}
-          >
-            Checkbox
-          </Checkbox>
-          <FormHelperText>Here click on the checkbox</FormHelperText>
+          <Radio value="option 1">Option 1</Radio>
+          <Radio value="option 2">Option 2</Radio>
+          <Radio value="option 3">Option 3</Radio>
+        </AppRadioInput>
 
-          {errors?.checkbox?.message && (
-            <FormErrorMessage>{errors.checkbox.message}</FormErrorMessage>
-          )}
-        </FormControl>
+        <AppSliderInput<FormType>
+          control={control}
+          name="slider"
+          label="my slider"
+          errors={errors}
+        />
 
-        <FormControl
-          isInvalid={!!errors.editable}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
+        <AppPinInput<FormType>
+          control={control}
+          name="pinInput"
+          label="my pin"
+          errors={errors}
         >
-          <FormLabel>Editable</FormLabel>
-          <Editable defaultValue="Click here to edit this text">
-            <EditablePreview fontSize="2xl" />
-            <EditableInput
-              fontSize="2xl"
-              {...register("editable", {
-                required: "This is required",
-              })}
-            />
-          </Editable>
-          <FormHelperText>Here you can edit the big text</FormHelperText>
-          {errors?.editable?.message && (
-            <FormErrorMessage>{errors.editable.message}</FormErrorMessage>
-          )}
-        </FormControl>
-
-        {/* register checkbox value */}
-        <FormControl
-          isInvalid={!!errors.radio}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
-        >
-          <FormLabel as="legend">Radios Buttons</FormLabel>
-          <RadioGroup defaultValue="Itachi">
-            <VStack spacing={5} alignItems="flex-start">
-              <Radio value="option 1">Option 1</Radio>
-              <Radio value="option 2">Option 2</Radio>
-              <Radio value="option 3">Option 3</Radio>
-            </VStack>
-          </RadioGroup>
-          <FormHelperText>Select one option</FormHelperText>
-        </FormControl>
-
-        <FormControl
-          isInvalid={!!errors.number}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
-        >
-          <FormLabel>NumberInput</FormLabel>
-          <NumberInput>
-            <NumberInputField
-              {...register("number", {
-                required: "This is required",
-              })}
-            />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-          <FormHelperText>Input some number</FormHelperText>
-          {errors?.number?.message && (
-            <FormErrorMessage>{errors.number.message}</FormErrorMessage>
-          )}
-        </FormControl>
-
-        {/* register pun input! */}
-        <FormControl
-          isInvalid={!!errors.pininput}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
-        >
-          <FormLabel>PinInput</FormLabel>
-          <HStack>
-            <PinInput>
-              <PinInputField />
-              <PinInputField />
-              <PinInputField />
-              <PinInputField />
-            </PinInput>
-          </HStack>
-          <FormHelperText>
-            Put the code you receive in your email
-          </FormHelperText>
-        </FormControl>
-
-        <FormControl
-          isInvalid={!!errors.select}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
-        >
-          <FormLabel>Select</FormLabel>
-          <Select
-            placeholder="Select option"
-            {...register("select", {
-              required: "This is required",
-            })}
-          >
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </Select>
-          <FormHelperText>Select one option</FormHelperText>
-          {errors?.select?.message && (
-            <FormErrorMessage>{errors.select.message}</FormErrorMessage>
-          )}
-        </FormControl>
-
-        <FormControl
-          isInvalid={!!errors.slider}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
-        >
-          <FormLabel>Slider</FormLabel>
-          <Slider aria-label="slider-ex-1" defaultValue={30}>
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <SliderThumb />
-          </Slider>
-          <FormHelperText>Select a value with the slider</FormHelperText>
-          {errors?.slider?.message && (
-            <FormErrorMessage>{errors.slider.message}</FormErrorMessage>
-          )}
-        </FormControl>
-
-        <FormControl
-          isInvalid={!!errors.slider}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
-        >
-          <FormLabel>Range Slider</FormLabel>
-
-          <RangeSlider
-            aria-label={["min", "max"]}
-            onChangeEnd={(val) => console.log(val)}
-          >
-            <RangeSliderTrack>
-              <RangeSliderFilledTrack />
-            </RangeSliderTrack>
-            <RangeSliderThumb index={0} />
-            <RangeSliderThumb index={1} />
-          </RangeSlider>
-
-          <FormHelperText>Select a value with the slider</FormHelperText>
-          {errors?.slider?.message && (
-            <FormErrorMessage>{errors.slider.message}</FormErrorMessage>
-          )}
-        </FormControl>
-
-        <FormControl
-          isInvalid={!!errors.switch}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
-        >
-          <FormLabel htmlFor="switch">Switch</FormLabel>
-          <Switch
-            id="switch"
-            {...register("switch", {
-              required: "This is required",
-            })}
-          />
-          <FormHelperText>Click on the switch</FormHelperText>
-          {errors?.switch?.message && (
-            <FormErrorMessage>{errors.switch.message}</FormErrorMessage>
-          )}
-        </FormControl>
-
-        <FormControl
-          isInvalid={!!errors.textarea}
-          rounded="md"
-          border="1px solid"
-          borderColor="gray.500"
-          p={5}
-        >
-          <FormLabel>Text Area</FormLabel>
-          <Textarea
-            {...register("textarea", {
-              required: "This is required",
-            })}
-            placeholder="Here is a sample placeholder"
-          />
-          <FormHelperText>Write as much you want</FormHelperText>
-          {errors?.textarea?.message && (
-            <FormErrorMessage>{errors.textarea.message}</FormErrorMessage>
-          )}
-        </FormControl>
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+        </AppPinInput>
 
         <Button
           mt={4}
